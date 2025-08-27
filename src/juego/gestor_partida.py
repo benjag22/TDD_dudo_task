@@ -10,3 +10,8 @@ class GestorPartida:
     def obtener_dados_jugador(self, nombre_jugador):
 
         return self.dados_por_jugador[nombre_jugador]
+    
+    def quitar_dado_jugador(self, nombre_jugador):
+
+        if self.dados_por_jugador[nombre_jugador] > 0:
+            self.dados_por_jugador[nombre_jugador] -= 1
