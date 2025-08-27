@@ -27,3 +27,13 @@ class TestGestorPartida:
         # Assert: Juan ahora debe tener 4 dados
         assert gestor.obtener_dados_jugador("Juan") == 4
         assert gestor.obtener_dados_jugador("Maria") == 5
+
+    def test_determina_quien_inicia_siguiente_ronda(self):
+
+        jugadores = ["Juan", "Maria", "Pedro"]
+        gestor = GestorPartida(jugadores)
+        
+        gestor.establecer_perdedor_ronda("Juan")
+        
+        # Assert: Juan debe ser quien inicia la siguiente ronda
+        assert gestor.obtener_iniciador_ronda() == "Juan"
