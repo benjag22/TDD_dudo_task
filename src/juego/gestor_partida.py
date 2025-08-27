@@ -9,6 +9,9 @@ class GestorPartida:
             
         self.iniciador_ronda = None
     
+        self.jugadores = jugadores
+        self.indice_turno_actual = 0  # empieza con el primer jugador
+    
     def obtener_dados_jugador(self, nombre_jugador):
 
         return self.dados_por_jugador[nombre_jugador]
@@ -26,3 +29,9 @@ class GestorPartida:
     
     def tiene_jugador_un_solo_dado(self, nombre_jugador):
         return self.dados_por_jugador[nombre_jugador] == 1
+    
+    def obtener_jugador_actual(self):
+        return self.jugadores[self.indice_turno_actual]
+    
+    def avanzar_turno(self):
+        self.indice_turno_actual = (self.indice_turno_actual + 1) % len(self.jugadores)
