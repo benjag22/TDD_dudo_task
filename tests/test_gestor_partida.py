@@ -37,3 +37,19 @@ class TestGestorPartida:
         
         # Assert: Juan debe ser quien inicia la siguiente ronda
         assert gestor.obtener_iniciador_ronda() == "Juan"
+
+    def test_detecta_cuando_jugador_tiene_un_solo_dado(self):
+
+        jugadores = ["Juan", "Maria", "Pedro"] 
+        gestor = GestorPartida(jugadores)
+
+        for _ in range(4):
+            gestor.quitar_dado_jugador("Juan")
+        
+        tiene_un_dado = gestor.tiene_jugador_un_solo_dado("Juan")
+        
+        # Assert: debe detectar que Juan tiene un solo dado
+        assert tiene_un_dado == True
+
+        assert gestor.tiene_jugador_un_solo_dado("Maria") == False
+        assert gestor.tiene_jugador_un_solo_dado("Pedro") == False
