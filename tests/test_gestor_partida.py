@@ -53,3 +53,20 @@ class TestGestorPartida:
 
         assert gestor.tiene_jugador_un_solo_dado("Maria") == False
         assert gestor.tiene_jugador_un_solo_dado("Pedro") == False
+
+    def test_maneja_flujo_de_turnos(self):
+       
+        jugadores = ["Juan", "Maria", "Pedro"]
+        gestor = GestorPartida(jugadores)
+
+        # Assert: verificar la secuencia de turnos
+        assert gestor.obtener_jugador_actual() == "Juan" #primer turno de juan
+        
+        gestor.avanzar_turno()
+        assert gestor.obtener_jugador_actual() == "Maria"
+        
+        gestor.avanzar_turno()
+        assert gestor.obtener_jugador_actual() == "Pedro"
+        
+        gestor.avanzar_turno()
+        assert gestor.obtener_jugador_actual() == "Juan"
