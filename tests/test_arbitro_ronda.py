@@ -29,3 +29,15 @@ class TestArbitroRonda:
         # Assert: calce exitoso (hay exactamente 3 trenes)
         assert resultado["calce_exitoso"] == True
         assert resultado["quien_gana_dado"] == "calzador"
+
+    def test_valida_condiciones_calzar(self):
+        
+        total_dados_en_juego = 10
+        dados_del_jugador = 3
+        
+        arbitro = ArbitroRonda()
+        
+        puede_calzar = arbitro.validar_condiciones_calzar(dados_del_jugador, total_dados_en_juego)
+        
+        # Assert: No puede calzar
+        assert puede_calzar == False
