@@ -37,3 +37,17 @@ class ArbitroRonda:
             "calce_exitoso": calce_exitoso,
             "quien_gana_dado": quien_gana_dado
         }
+
+    def validar_condiciones_calzar(self, dados_del_jugador, total_dados_en_juego):
+       
+        # Condicion 1 tiene un solo dado (caso especial)
+        if dados_del_jugador == 1:
+            return True
+
+        # Condicion 2 tiene la mitad o más de los dados en juego
+        mitad_dados = total_dados_en_juego / 2
+        if dados_del_jugador >= mitad_dados:
+            return True
+        
+        # No cumple ninguna condicion
+        return False
