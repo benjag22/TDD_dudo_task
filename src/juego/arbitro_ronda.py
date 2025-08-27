@@ -18,3 +18,22 @@ class ArbitroRonda:
             "apuesta_es_cierta": apuesta_es_cierta,
             "quien_pierde": quien_pierde
         }
+    
+    def determinar_resultado_calzar(self, apuesta, todos_los_dados):
+       
+        cantidad_apostada = apuesta["cantidad"]
+        pinta_apostada = apuesta["pinta"]
+        
+        dados_encontrados = todos_los_dados.count(pinta_apostada)
+        
+        calce_exitoso = dados_encontrados == cantidad_apostada
+        
+        if calce_exitoso:
+            quien_gana_dado = "calzador"
+        else:
+            quien_gana_dado = "apostador"
+
+        return {
+            "calce_exitoso": calce_exitoso,
+            "quien_gana_dado": quien_gana_dado
+        }
