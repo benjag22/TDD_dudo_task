@@ -23,3 +23,6 @@ class GestorPartida:
     
     def obtener_iniciador_ronda(self):
         return self.iniciador_ronda
+    
+    def tiene_jugador_un_solo_dado(self, nombre_jugador):
+        return self.dados_por_jugador[nombre_jugador] == 1
