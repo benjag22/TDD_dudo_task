@@ -14,3 +14,16 @@ class TestGestorPartida:
         assert gestor.obtener_dados_jugador("Juan") == 5
         assert gestor.obtener_dados_jugador("Maria") == 5
         assert gestor.obtener_dados_jugador("Pedro") == 5
+
+    def test_actualiza_dados_cuando_jugador_pierde(self):
+        
+        jugadores = ["Juan", "Maria"]
+        gestor = GestorPartida(jugadores)
+        
+        assert gestor.obtener_dados_jugador("Juan") == 5
+        
+        gestor.quitar_dado_jugador("Juan")
+        
+        # Assert: Juan ahora debe tener 4 dados
+        assert gestor.obtener_dados_jugador("Juan") == 4
+        assert gestor.obtener_dados_jugador("Maria") == 5
