@@ -1,4 +1,5 @@
 import pytest
+from src.juego.validador_apuesta import ValidadorApuesta
 
 def test_primera_apuesta_permitida_sin_ases():
     validador = ValidadorApuesta()
