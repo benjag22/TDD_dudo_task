@@ -7,7 +7,7 @@ on:
   workflow_dispatch:  # run manually
 jobs:
   deploy:
-    runs-on: windows-2019 windows-2022 windows-latest
+    runs-on: windows-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -26,7 +26,6 @@ jobs:
       - name: Check if coverage is >= 90%
         run: |
           set -e
-
           json=$(< .coverage.json)
           coverage=$(
             echo $json \
