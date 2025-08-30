@@ -25,15 +25,11 @@ jobs:
 
       - name: Check if coverage is >= 90%
         run: |
-          set -e
-          json=$(< .coverage.json)
-          coverage=$(
-            echo $json \
-            | grep -oE '"totals": \{[^}]*"percent_covered": ?[0-9]+' \
-            | grep -oE "[0-9]+$"
-          )
+          $json = Get-Content ".coverage.json" -Raw
+          $matches = [regex]::Matches($json, '"percent_covered":\s*([0-9]+)')
+          $coverage = [int]$matches[0].Groups[1].Value
 
-          if [[ $coverage -lt 90 ]]; then
-            echo "Did not meet coverage threshold (got $coverage%, expected at least 90%)"
+          if ($coverage -lt 90) {
+            Write-Host "Did not meet coverage threshold (got $coverage%, expected at least 90%)"
             exit 1
-          fi
+          }
