@@ -1,53 +1,58 @@
+from src.juego.contador_pintas import ContadorPintas
+from src.utils.dudo_types import ResultadoDudo, ResultadoCalzar, TipoResultado, Apuesta
 class ArbitroRonda:
-    
-    def determinar_resultado_dudo(self, apuesta, todos_los_dados):
-        
-        cantidad_apostada = apuesta["cantidad"]
-        pinta_apostada = apuesta["pinta"]
-        
-        dados_encontrados = todos_los_dados.count(pinta_apostada)
+    contador_pintas: ContadorPintas
 
-        apuesta_es_cierta = dados_encontrados >= cantidad_apostada #se verifica la apuesta
+    def __init__(self) -> None:
+        self.contador_pintas = ContadorPintas()
 
-        if apuesta_es_cierta:
-            quien_pierde = "dudador"
-        else:
-            quien_pierde = "apostador"
+    def determinar_resultado_dudo(self, apuesta: Apuesta,
+                                  todos_los_cachos: list[list[int]],
+                                  usar_ases_como_comodines: bool = True) -> ResultadoDudo:
 
-        return {
-            "apuesta_es_cierta": apuesta_es_cierta,
-            "quien_pierde": quien_pierde
-        }
-    
-    def determinar_resultado_calzar(self, apuesta, todos_los_dados):
-       
-        cantidad_apostada = apuesta["cantidad"]
-        pinta_apostada = apuesta["pinta"]
-        
-        dados_encontrados = todos_los_dados.count(pinta_apostada)
-        
-        calce_exitoso = dados_encontrados == cantidad_apostada
-        
-        if calce_exitoso:
-            quien_gana_dado = "calzador"
-        else:
-            quien_gana_dado = "apostador"
+        dados_encontrados = self.contador_pintas.contar_en_todos_los_dados(
+            todos_los_cachos,
+            pinta=apuesta.pinta,
+            usar_ases_como_comodines=usar_ases_como_comodines
+        )
 
-        return {
-            "calce_exitoso": calce_exitoso,
-            "quien_gana_dado": quien_gana_dado
-        }
+        apuesta_es_cierta = dados_encontrados >= apuesta.cantidad
 
-    def validar_condiciones_calzar(self, dados_del_jugador, total_dados_en_juego):
-       
-        # Condicion 1 tiene un solo dado (caso especial)
+        quien_pierde = TipoResultado.DUDADOR if apuesta_es_cierta else TipoResultado.APOSTADOR
+
+        return ResultadoDudo(
+            apuesta_es_cierta=apuesta_es_cierta,
+            quien_pierde=quien_pierde,
+            dados_reales=dados_encontrados,
+            dados_apostados=apuesta.cantidad
+        )
+
+    def determinar_resultado_calzar(self,
+                                    apuesta: Apuesta,
+                                    todos_los_cachos: list[list[int]],
+                                    usar_ases_como_comodines: bool = True
+                                    ) -> ResultadoCalzar:
+        dados_encontrados = self.contador_pintas.contar_en_todos_los_dados(
+            todos_los_cachos, apuesta.pinta, usar_ases_como_comodines
+        )
+
+        calce_exitoso = dados_encontrados == apuesta.cantidad
+        quien_gana_dado = "calzador" if calce_exitoso else None
+
+        return ResultadoCalzar(
+            calce_exitoso=calce_exitoso,
+            quien_gana_dado=quien_gana_dado,
+            dados_reales=dados_encontrados,
+            dados_apostados=apuesta.cantidad
+        )
+
+    @staticmethod
+    def validar_condiciones_calzar(dados_del_jugador: int, total_dados_en_juego: int) -> bool:
         if dados_del_jugador == 1:
             return True
 
-        # Condicion 2 tiene la mitad o más de los dados en juego
         mitad_dados = total_dados_en_juego / 2
         if dados_del_jugador >= mitad_dados:
             return True
-        
-        # No cumple ninguna condicion
+
         return False
