@@ -1,3 +1,4 @@
+import random
 from typing import Optional
 
 from src.juego.arbitro_ronda import ArbitroRonda
@@ -7,7 +8,10 @@ from src.utils.dudo_types import Apuesta, TipoResultado
 
 
 class GestorPartida:
+
     def __init__(self, jugadores: list[str]):
+
+        self.jugadores = jugadores.copy()
         self.jugadores_activos = jugadores.copy()
         self.dados_por_jugador = {jugador: 5 for jugador in jugadores}
 
@@ -21,6 +25,28 @@ class GestorPartida:
         self.iniciador_ronda = None
         self.indice_turno_actual = 0
 
+    def iniciar_partida(self) -> dict:
+        tiradas = {}
+        for jugador in self.jugadores:
+            tiradas[jugador] = random.randint(1, 6)
+
+        max_tirada = max(tiradas.values())
+        ganadores = [jugador for jugador, tirada in tiradas.items() if tirada == max_tirada]
+
+        while len(ganadores) > 1:
+            tiradas = {}
+            for jugador in ganadores:
+                tiradas[jugador] = random.randint(1, 6)
+            max_tirada = max(tiradas.values())
+            ganadores = [jugador for jugador, tirada in tiradas.items() if tirada == max_tirada]
+
+        self.iniciador_ronda = ganadores[0]
+        self.indice_turno_actual = self.jugadores.index(self.iniciador_ronda)
+
+        return {
+            "tiradas": tiradas,
+            "iniciador": self.iniciador_ronda
+        }
 
     def obtener_dados_jugador(self, nombre_jugador):
         return self.dados_por_jugador.get(nombre_jugador, 0)
