@@ -1,5 +1,6 @@
 import pytest
 from src.juego.gestor_partida import GestorPartida
+from src.utils.dudo_types import ResultadoDudo, TipoResultado
 
 
 class TestGestorPartida:
@@ -95,3 +96,28 @@ class TestGestorPartida:
         gestor.establecer_direccion(False)
         gestor.avanzar_turno()
         assert gestor.obtener_jugador_actual() == "Juan"
+
+def test_procesar_dudo_cuando_dudador_pierde(mocker):
+    # Arrange
+    jugadores = ["Juan", "Maria"]
+    gestor = GestorPartida(jugadores)
+
+    mock_resultado = ResultadoDudo(
+        apuesta_es_cierta=True,
+        quien_pierde=TipoResultado.DUDADOR,
+        dados_reales=4,
+        dados_apostados=3
+    )
+    mocker.patch.object(gestor.arbitro, "determinar_resultado_dudo", return_value=mock_resultado)
+
+    # Act
+    gestor.realizar_apuesta("Juan", 3, 4)
+    resultado = gestor.procesar_dudo("Maria")
+
+    # Assert
+    assert resultado["apuesta_es_cierta"] is True
+    assert resultado["quien_pierde"] == "dudador"
+    assert resultado["perdedor"] == "Maria"
+    assert gestor.obtener_dados_jugador("Maria") == 4  # Perdió un dado
+    assert gestor.obtener_dados_jugador("Juan") == 5  # Juan mantiene sus dados
+    assert gestor.obtener_iniciador_ronda() == "Maria"  # Maria inicia la próxima ronda
