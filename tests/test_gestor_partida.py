@@ -84,3 +84,14 @@ class TestGestorPartida:
 
         assert gestor.es_fin_del_juego() == True
         assert gestor.obtener_ganador() == "Maria"
+
+    def test_establecer_direccion_de_turnos(self):
+        jugadores = ["Juan", "Maria", "Pedro"]
+        gestor = GestorPartida(jugadores)
+
+        gestor.avanzar_turno()
+        assert gestor.obtener_jugador_actual() == "Maria"
+
+        gestor.establecer_direccion(False)
+        gestor.avanzar_turno()
+        assert gestor.obtener_jugador_actual() == "Juan" 
