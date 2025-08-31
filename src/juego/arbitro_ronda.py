@@ -1,5 +1,6 @@
 from src.juego.contador_pintas import ContadorPintas
 from src.utils.dudo_types import ResultadoDudo, ResultadoCalzar, TipoResultado, Apuesta
+
 class ArbitroRonda:
     contador_pintas: ContadorPintas
 

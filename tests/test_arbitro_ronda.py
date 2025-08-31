@@ -8,7 +8,7 @@ class TestArbitroRonda:
     def test_determina_apuesta_falsa_cuando_hay_menos_dados_de_los_apostados(self):
 
         todos_los_cachos = [3, 3, 1, 2, 4, 5, 6]
-        apuesta = Apuesta(cantidad=3, pinta=3)  # 3 trenes
+        apuesta = Apuesta(cantidad=3, pinta=3, jugador="Jugador cualquiera")  # 3 trenes
 
         arbitro = ArbitroRonda()
         
@@ -21,7 +21,7 @@ class TestArbitroRonda:
     def test_calzar_exitoso_cuando_apuesta_es_exacta(self):
 
         todos_los_cachos = [3, 3, 3, 1, 2]
-        apuesta = Apuesta(cantidad=3, pinta=3)  # 3 trenes
+        apuesta = Apuesta(cantidad=3, pinta=3, jugador="Jugador cualquiera")  # 3 trenes
 
         arbitro = ArbitroRonda()
         

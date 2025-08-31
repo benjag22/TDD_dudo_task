@@ -41,6 +41,9 @@ class ValidadorApuesta:
 
         return es_valida
 
+    def reiniciar(self):
+        self.cantidad_actual = 0
+        self.pinta_actual = 0
 
     def _convertir_a_ases(self, cantidad: int) -> int:
         return (cantidad // 2) + 1 if cantidad % 2 == 0 else math.ceil(cantidad / 2)

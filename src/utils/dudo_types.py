@@ -10,6 +10,7 @@ class TipoResultado(Enum):
 class Apuesta:
     cantidad: int
     pinta: int
+    jugador: str
 
 
 @dataclass

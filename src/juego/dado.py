@@ -1,10 +1,19 @@
 import random
 
 class Dado:
+    valor:int
+    def __init__(self):
+        self.valor = 0
+
     def lanzar(self):
-        return random.randint(1, 6)
+        self.valor = random.randint(1, 6)
+        return self.valor
+
+    def getValor(self):
+        return self.valor
+
     def definir(self, valor):
-        match (valor):
+        match valor:
             case 1:
                 return "As"
             case 2:

@@ -11,6 +11,9 @@ class Cacho:
     def obtener_cantidad_de_dados(self) -> int:
         return len(self.dados)
 
+    def obtener_valores(self) -> list[int]:
+        return [dado.getValor() for dado in self.dados]
+
     def quitar_dado(self) -> int:
         self.dados.pop()
         return self.obtener_cantidad_de_dados()
