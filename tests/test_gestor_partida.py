@@ -94,4 +94,4 @@ class TestGestorPartida:
 
         gestor.establecer_direccion(False)
         gestor.avanzar_turno()
-        assert gestor.obtener_jugador_actual() == "Juan" 
+        assert gestor.obtener_jugador_actual() == "Juan"

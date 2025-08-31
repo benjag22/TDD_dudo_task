@@ -3,6 +3,7 @@ class GestorPartida:
         self.jugadores_activos = jugadores.copy()
         self.dados_por_jugador = {jugador: 5 for jugador in jugadores}
 
+        self.direccion_clockwise = True
         self.iniciador_ronda = None
         self.indice_turno_actual = 0
 
@@ -27,9 +28,14 @@ class GestorPartida:
     def obtener_jugador_actual(self):
         return self.jugadores_activos[self.indice_turno_actual]
 
-    def avanzar_turno(self):
-        if len(self.jugadores_activos) > 0:
+    def establecer_direccion(self, clockwise: bool) -> None:
+        self.direccion_clockwise = clockwise
+
+    def avanzar_turno(self) -> None:
+        if self.direccion_clockwise:
             self.indice_turno_actual = (self.indice_turno_actual + 1) % len(self.jugadores_activos)
+        else:
+            self.indice_turno_actual = (self.indice_turno_actual - 1) % len(self.jugadores_activos)
 
     def es_fin_del_juego(self) -> bool:
         return len(self.jugadores_activos) <= 1
