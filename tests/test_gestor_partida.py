@@ -97,6 +97,7 @@ class TestGestorPartida:
         gestor.avanzar_turno()
         assert gestor.obtener_jugador_actual() == "Juan"
 
+### Tests usando mocker para los casos que necesiten ser determinista
 def test_procesar_dudo_cuando_dudador_pierde(mocker):
     # Arrange
     jugadores = ["Juan", "Maria"]
@@ -121,3 +122,21 @@ def test_procesar_dudo_cuando_dudador_pierde(mocker):
     assert gestor.obtener_dados_jugador("Maria") == 4  # Perdió un dado
     assert gestor.obtener_dados_jugador("Juan") == 5  # Juan mantiene sus dados
     assert gestor.obtener_iniciador_ronda() == "Maria"  # Maria inicia la próxima ronda
+
+
+def test_iniciar_partida_determina_iniciador(mocker):
+    jugadores = ["Juan", "Maria", "Pedro"]
+    gestor = GestorPartida(jugadores)
+
+    tiradas_deseadas = [3, 5, 2]  # juan, maria y Pedro
+
+    # mock random.randint para devolver las tiradas en orden
+    mocker.patch("random.randint", side_effect=tiradas_deseadas)
+
+    resultado = gestor.iniciar_partida()
+
+    assert resultado["iniciador"] == "Maria"
+    assert gestor.iniciador_ronda == "Maria"
+    assert gestor.obtener_jugador_actual() == "Maria"
+
+
