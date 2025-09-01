@@ -99,7 +99,6 @@ class TestGestorPartida:
 
 ### Tests usando mocker para los casos que necesiten ser determinista
 def test_procesar_dudo_cuando_dudador_pierde(mocker):
-    # Arrange
     jugadores = ["Juan", "Maria"]
     gestor = GestorPartida(jugadores)
 
@@ -109,19 +108,17 @@ def test_procesar_dudo_cuando_dudador_pierde(mocker):
         dados_reales=4,
         dados_apostados=3
     )
-    mocker.patch.object(gestor.arbitro, "determinar_resultado_dudo", return_value=mock_resultado)
+    mocker.patch.object(gestor._arbitro, "determinar_resultado_dudo", return_value=mock_resultado)
 
-    # Act
     gestor.realizar_apuesta("Juan", 3, 4)
     resultado = gestor.procesar_dudo("Maria")
 
-    # Assert
     assert resultado["apuesta_es_cierta"] is True
     assert resultado["quien_pierde"] == "dudador"
     assert resultado["perdedor"] == "Maria"
-    assert gestor.obtener_dados_jugador("Maria") == 4  # Perdió un dado
-    assert gestor.obtener_dados_jugador("Juan") == 5  # Juan mantiene sus dados
-    assert gestor.obtener_iniciador_ronda() == "Maria"  # Maria inicia la próxima ronda
+    assert gestor.obtener_dados_jugador("Maria") == 4
+    assert gestor.obtener_dados_jugador("Juan") == 5
+    assert gestor.obtener_iniciador_ronda() == "Maria"
 
 
 def test_iniciar_partida_determina_iniciador(mocker):
@@ -136,7 +133,8 @@ def test_iniciar_partida_determina_iniciador(mocker):
     resultado = gestor.iniciar_partida()
 
     assert resultado["iniciador"] == "Maria"
-    assert gestor.iniciador_ronda == "Maria"
+    assert gestor._iniciador_ronda == "Maria"
     assert gestor.obtener_jugador_actual() == "Maria"
+
 
 
