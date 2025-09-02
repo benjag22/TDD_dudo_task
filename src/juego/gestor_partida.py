@@ -37,18 +37,6 @@ class Jugador:
     estado: EstadoJugador
 
 
-@dataclass
-class ConfiguracionRondaEspecial:
-    """
-    Configuración para rondas especiales del juego.
-    Permite activar reglas especiales como pinta fija o iniciador específico.
-    """
-    activa: bool = False
-    tipo: str = ""
-    pinta_fija: Optional[int] = None
-    iniciador: Optional[str] = None
-
-
 class GestorPartida:
     """
     Clase principal que gestiona una partida completa del juego de Dudo.
